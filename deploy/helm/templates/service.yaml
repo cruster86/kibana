@@ -20,4 +20,3 @@ spec:
       targetPort: {{ .Values.httpPort }}
   selector:
     app: {{ .Chart.Name }}
-    release: {{ .Release.Name }}

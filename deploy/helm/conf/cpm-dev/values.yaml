@@ -7,3 +7,5 @@ automountToken: false
 
 nodeSelector:
   kubernetes.io/hostname: ts-monitoring
+
+tolerations: []

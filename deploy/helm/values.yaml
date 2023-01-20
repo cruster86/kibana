@@ -1,8 +1,7 @@
 ---
-elasticsearchHosts: "https://elasticsearch-master:9200"
-elasticsearchCertificateSecret: elasticsearch-master-certs
-elasticsearchCertificateAuthoritiesFile: ca.crt
-elasticsearchCredentialSecret: elasticsearch-master-credentials
+
+elasticsearchURL: {}
+elasticsearchPUBLICBASEURL: {}
 
 replicas: 1
 
@@ -37,8 +36,8 @@ hostAliases: []
 #  - "foo.local"
 #  - "bar.local"
 
-image: "docker.elastic.co/kibana/kibana"
-imageTag: "8.5.1"
+image: "cr.yandex/crpcm9tg75s8gu2hqkp9/kibana"
+imageTag: "7.16.1"
 imagePullPolicy: "IfNotPresent"
 
 # additionals labels
@@ -51,24 +50,15 @@ podAnnotations: {}
 
 resources:
   requests:
-    cpu: "1000m"
-    memory: "2Gi"
+    cpu: "100m"
   limits:
     cpu: "1000m"
-    memory: "2Gi"
 
 protocol: http
 
 serverHost: "0.0.0.0"
 
 healthCheckPath: "/app/kibana"
-
-# Allows you to add any config files in /usr/share/kibana/config/
-# such as kibana.yml
-kibanaConfig: {}
-#   kibana.yml: |
-#     key:
-#       nestedkey: value
 
 # If Pod Security Policy in use it may be required to specify security context as well as service account
 
@@ -117,7 +107,10 @@ extraInitContainers: []
 #   command: ['echo', 'hey']
 
 updateStrategy:
-  type: "Recreate"
+  rollingUpdate:
+    maxSurge: 25%
+    maxUnavailable: 25%
+  type: RollingUpdate
 
 service:
   type: ClusterIP
@@ -158,9 +151,13 @@ readinessProbe:
   successThreshold: 3
   timeoutSeconds: 5
 
-imagePullSecrets: []
+imagePullSecrets:
+- sirius-registry
+
 nodeSelector: {}
+
 tolerations: []
+
 affinity: {}
 
 nameOverride: ""

@@ -1,1 +1,5 @@
+elasticsearchURL: https://logs-cpm.online.olimpiada.ru
+elasticsearchPUBLICBASEURL: http://10.43.214.248:9200
 
+nodeSelector:
+  kubernetes.io/hostname: ts-monitoring

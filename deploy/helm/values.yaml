@@ -1,59 +1,95 @@
-affinity: {}
-elasticsearchURL: ""
+---
 elasticsearchPUBLICBASEURL: ""
-extraEnvs: []
-fullnameOverride: ''
-healthCheckPath: /app/kibana
-httpPort: 5601
-image: cr.yandex/crpcm9tg75s8gu2hqkp9/kibana:7.16.1
-imagePullPolicy: IfNotPresent
-imagePullSecrets: []
-imageTag: 7.16.1
-ingress:
-  enabled: false
-kibanaConfig: {}
+elasticsearchURL: ""
+
+replicas: 1
+
+image: "cr.yandex/crpcm9tg75s8gu2hqkp9/kibana"
+imageTag: "7.16.1"
+imagePullPolicy: "IfNotPresent"
+
 labels: {}
-lifecycle: {}
-maxUnavailable: 1
-nameOverride: ''
-nodeSelector: {}
+
+annotations: {}
+
 podAnnotations: {}
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "300Mi"
+  limits:
+    cpu: "800m"
+    memory: "2Gi"
+
+protocol: http
+
+serverHost: "0.0.0.0"
+
+healthCheckPath: "/app/kibana"
+
 podSecurityContext:
   fsGroup: 1000
-priorityClassName: ''
-protocol: http
+
+securityContext:
+  capabilities:
+    drop:
+      - ALL
+  # readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
+automountToken: true
+
+httpPort: 5601
+
+updateStrategy:
+  rollingUpdate:
+    maxSurge: 25%
+    maxUnavailable: 25%
+  type: RollingUpdate
+
+service:
+  type: ClusterIP
+  loadBalancerIP: ""
+  port: 5601
+  nodePort: ""
+  labels: {}
+  annotations: {}
+  loadBalancerSourceRanges: []
+  httpPortName: http
+
+ingress:
+  enabled: false
+  className: "nginx"
+  pathtype: ImplementationSpecific
+  annotations: {}
+  # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: kibana-example.local
+      paths:
+        - path: /
+  #tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
 readinessProbe:
   failureThreshold: 3
   initialDelaySeconds: 10
   periodSeconds: 10
   successThreshold: 3
   timeoutSeconds: 5
-replicas: 1
-resources:
-  limits:
-    cpu: 800m
-    memory: 2Gi
-  requests:
-    cpu: 100m
-    memory: 300Mi
-secretMounts: []
-securityContext:
-  capabilities:
-    drop:
-      - ALL
-  runAsNonRoot: true
-  runAsUser: 1000
-serverHost: 0.0.0.0
-service:
-  annotations: {}
-  nodePort: ''
-  port: 5601
-  type: ClusterIP
-serviceAccount: ''
-tolerations:
-  - effect: NoSchedule
-    key: node-role
-    operator: Equal
-    value: monitoring
-updateStrategy:
-  type: Recreate
+
+imagePullSecrets:
+- name: sirius-registry
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+nameOverride: ""
+fullnameOverride: ""

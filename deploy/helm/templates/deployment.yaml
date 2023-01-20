@@ -1,87 +1,95 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: {{ .Chart.Name }}
-    release: {{ .Chart.Name }}
   name: {{ .Chart.Name }}
+  labels: {{ include "kibana.labels" . | nindent 4 }}
+  {{- if .Values.annotations }}
+  annotations:
+    {{- range $key, $value := .Values.annotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+  {{- end }}
 spec:
-  progressDeadlineSeconds: 600
-  replicas: 1
-  revisionHistoryLimit: 10
+  replicas: {{ .Values.replicas }}
+  strategy:
+{{ toYaml .Values.updateStrategy | indent 4 }}
   selector:
     matchLabels:
-      app: kibana
-      release: kibana
-  strategy:
-    type: Recreate
+      app: {{ .Chart.Name }}
   template:
     metadata:
       labels:
         app: {{ .Chart.Name }}
-        release: {{ .Chart.Name }}
+        release: {{ .Release.Name  }}
+        {{- range $key, $value := .Values.labels }}
+        {{ $key }}: {{ $value | quote }}
+        {{- end }}
+      annotations:
+        {{- range $key, $value := .Values.podAnnotations }}
+        {{ $key }}: {{ $value | quote }}
+        {{- end }}
     spec:
+      automountServiceAccountToken: {{ .Values.automountToken }}
+      securityContext:
+{{ toYaml .Values.podSecurityContext | indent 8 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      dnsPolicy: ClusterFirst
+    {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.imagePullSecrets | indent 8 }}
+    {{- end }}
       containers:
-      - env:
-        - name: SERVER_PUBLICBASEURL
-          value: https://logs-univ.sirius.online
-        - name: ELASTICSEARCH_HOSTS
-          value: http://elasticsearch-master:9200
-        - name: SERVER_HOST
-          value: 0.0.0.0
-        image: {{ .Values.image }}:{{ .Values.imageTag }}
-        imagePullPolicy: {{ .Values.imagePullPolicy }}
-        name: {{ .Chart.Name }}
-        ports:
-        - containerPort: {{ .Values.httpPort }}
-          protocol: TCP
+      - name: kibana
+        securityContext:
+{{ toYaml .Values.securityContext | indent 10 }}
+        image: "{{ .Values.image }}:{{ .Values.imageTag }}"
+        imagePullPolicy: "{{ .Values.imagePullPolicy }}"
+        env:
+          - name: SERVER_PUBLICBASEURL
+            value: "{{ .Values.elasticsearchPUBLICBASEURL }}"
+          - name: ELASTICSEARCH_URL
+            value: "{{ .Values.elasticsearchURL }}"
+          - name: SERVER_HOST
+            value: "{{ .Values.serverHost }}"
         readinessProbe:
-        {{ toYaml .Values.readinessProbe | indent 10 }}
+{{ toYaml .Values.readinessProbe | indent 10 }}
           exec:
             command:
               - bash
               - -c
               - |
                 #!/usr/bin/env bash -e
+
                 # Disable nss cache to avoid filling dentry cache when calling curl
                 # This is required with Kibana Docker using nss < 3.52
                 export NSS_SDB_USE_CACHE=no
+
                 http () {
                     local path="${1}"
                     set -- -XGET -s --fail -L
+
                     if [ -n "${ELASTICSEARCH_USERNAME}" ] && [ -n "${ELASTICSEARCH_PASSWORD}" ]; then
                       set -- "$@" -u "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"
                     fi
+
                     STATUS=$(curl --output /dev/null --write-out "%{http_code}" -k "$@" "{{ .Values.protocol }}://localhost:{{ .Values.httpPort }}${path}")
                     if [[ "${STATUS}" -eq 200 ]]; then
                       exit 0
                     fi
+
                     echo "Error: Got HTTP code ${STATUS} but expected a 200"
                     exit 1
                 }
+
                 http "{{ .Values.healthCheckPath }}"
-          failureThreshold: 3
-          initialDelaySeconds: 10
-          periodSeconds: 10
-          successThreshold: 3
-          timeoutSeconds: 5
+        ports:
+        - containerPort: {{ .Values.httpPort }}
         resources:
-          {{ toYaml .Values.resources | indent 10 }}
-        securityContext:
-          {{ toYaml .Values.securityContext | indent 10 }}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-      dnsPolicy: ClusterFirst
-      imagePullSecrets:
-      - name: sirius-registry
-      nodeSelector:
-        {{ .Values.nodeSelector }}
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext:
-        fsGroup: 1000
-      terminationGracePeriodSeconds: 30
-    {{- with .Values.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+{{ toYaml .Values.resources | indent 10 }}

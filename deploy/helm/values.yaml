@@ -1,28 +1,22 @@
 affinity: {}
-elasticsearchHosts: 'http://elasticsearch-master:9200'
-elasticsearchURL: ''
+elasticsearchURL: ""
+elasticsearchPUBLICBASEURL: ""
 extraEnvs: []
 fullnameOverride: ''
 healthCheckPath: /app/kibana
 httpPort: 5601
-image: docker.elastic.co/kibana/kibana
+image: cr.yandex/crpcm9tg75s8gu2hqkp9/kibana:7.16.1
 imagePullPolicy: IfNotPresent
 imagePullSecrets: []
-imageTag: 7.5.0
+imageTag: 7.16.1
 ingress:
-  annotations: {}
   enabled: false
-  hosts:
-    - chart-example.local
-  path: /
-  tls: []
 kibanaConfig: {}
 labels: {}
 lifecycle: {}
 maxUnavailable: 1
 nameOverride: ''
-nodeSelector:
-  node-role: monitoring
+nodeSelector: {}
 podAnnotations: {}
 podSecurityContext:
   fsGroup: 1000

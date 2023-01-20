@@ -2,10 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: kibana
-    release: kibana
-  name: kibana-kibana
-  namespace: logging
+    app: {{ .Chart.Name }}
+    release: {{ .Chart.Name }}
+  name: {{ .Chart.Name }}
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -19,8 +18,8 @@ spec:
   template:
     metadata:
       labels:
-        app: kibana
-        release: kibana
+        app: {{ .Chart.Name }}
+        release: {{ .Chart.Name }}
     spec:
       containers:
       - env:
@@ -30,69 +29,59 @@ spec:
           value: http://elasticsearch-master:9200
         - name: SERVER_HOST
           value: 0.0.0.0
-        image: cr.yandex/crpcm9tg75s8gu2hqkp9/kibana:7.16.1
-        imagePullPolicy: IfNotPresent
-        name: kibana
+        image: {{ .Values.image }}:{{ .Values.imageTag }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        name: {{ .Chart.Name }}
         ports:
-        - containerPort: 5601
+        - containerPort: {{ .Values.httpPort }}
           protocol: TCP
         readinessProbe:
+        {{ toYaml .Values.readinessProbe | indent 10 }}
           exec:
             command:
-            - sh
-            - -c
-            - |
-              #!/usr/bin/env bash -e
-              http () {
-                  local path="${1}"
-                  set -- -XGET -s --fail
-
-                  if [ -n "${ELASTICSEARCH_USERNAME}" ] && [ -n "${ELASTICSEARCH_PASSWORD}" ]; then
-                    set -- "$@" -u "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"
-                  fi
-
-                  STATUS=$(curl --output /dev/null --write-out "%{http_code}" -k "$@" "http://localhost:5601${path}")
-                  if [[ "${STATUS}" -eq 200 ]]; then
-                    exit 0
-                  fi
-
-                  echo "Error: Got HTTP code ${STATUS} but expected a 200"
-                  exit 1
-              }
-
-              http "/app/kibana"
+              - bash
+              - -c
+              - |
+                #!/usr/bin/env bash -e
+                # Disable nss cache to avoid filling dentry cache when calling curl
+                # This is required with Kibana Docker using nss < 3.52
+                export NSS_SDB_USE_CACHE=no
+                http () {
+                    local path="${1}"
+                    set -- -XGET -s --fail -L
+                    if [ -n "${ELASTICSEARCH_USERNAME}" ] && [ -n "${ELASTICSEARCH_PASSWORD}" ]; then
+                      set -- "$@" -u "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"
+                    fi
+                    STATUS=$(curl --output /dev/null --write-out "%{http_code}" -k "$@" "{{ .Values.protocol }}://localhost:{{ .Values.httpPort }}${path}")
+                    if [[ "${STATUS}" -eq 200 ]]; then
+                      exit 0
+                    fi
+                    echo "Error: Got HTTP code ${STATUS} but expected a 200"
+                    exit 1
+                }
+                http "{{ .Values.healthCheckPath }}"
           failureThreshold: 3
           initialDelaySeconds: 10
           periodSeconds: 10
           successThreshold: 3
           timeoutSeconds: 5
         resources:
-          limits:
-            cpu: 800m
-            memory: 2Gi
-          requests:
-            cpu: 100m
-            memory: 300Mi
+          {{ toYaml .Values.resources | indent 10 }}
         securityContext:
-          capabilities:
-            drop:
-            - ALL
-          runAsNonRoot: true
-          runAsUser: 1000
+          {{ toYaml .Values.securityContext | indent 10 }}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
       dnsPolicy: ClusterFirst
       imagePullSecrets:
       - name: sirius-registry
       nodeSelector:
-        node-role: monitoring
+        {{ .Values.nodeSelector }}
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext:
         fsGroup: 1000
       terminationGracePeriodSeconds: 30
+    {{- with .Values.tolerations }}
       tolerations:
-      - effect: NoSchedule
-        key: node-role
-        operator: Equal
-        value: monitoring
+{{ toYaml . | indent 8 }}
+    {{- end }}

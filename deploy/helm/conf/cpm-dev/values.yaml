@@ -1,7 +1,8 @@
 elasticsearchPUBLICBASEURL: https://logs-cpm.online.olimpiada.ru
+elasticsearchHosts: 'http://elasticsearch-master:9200'
 elasticsearchURL: http://10.43.214.248:9200
 
-serverHost: ""
+serverHost: "0.0.0.0"
 
 securityContext: {}
 

@@ -1,5 +1,6 @@
 ---
 elasticsearchPUBLICBASEURL: ""
+elasticsearchHosts: ""
 elasticsearchURL: ""
 serverHost: "0.0.0.0"
 

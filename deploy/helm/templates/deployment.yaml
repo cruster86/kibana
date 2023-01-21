@@ -54,8 +54,8 @@ spec:
         env:
           - name: SERVER_PUBLICBASEURL
             value: "{{ .Values.elasticsearchPUBLICBASEURL }}"
-          - name: ELASTICSEARCH_URL
-            value: "{{ .Values.elasticsearchURL }}"
+          - name: ELASTICSEARCH_HOSTS
+            value: "{{ .Values.elasticsearchHosts }}"
           - name: SERVER_HOST
             value: "{{ .Values.serverHost }}"
         readinessProbe:

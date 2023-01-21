@@ -1,0 +1,80 @@
+stages:
+  - cpm-dev-deploy
+  - cpm-yc-deploy
+  - corp-deploy
+  - univ-deploy
+  - sirius-deploy
+
+.base-kibana:
+  when: manual
+  before_script:
+    - echo 'Deploy parameters:'
+    - echo 'CLUSTER_NAME =>' ${CLUSTER_NAME}
+  script:
+    - set -x
+    - kubectl get ns kibana || kubectl create ns kibana
+    - chmod +x ./scripts/helm_deploy_and_wait.sh
+    - RELEASE_NAME="kibana"
+      NAMESPACE="kibana"
+      CHART="deploy/helm"
+      HELM_ARGS="
+      -f deploy/helm/conf/${CLUSTER_NAME}/values.yaml
+      --set global.secret="${YC_REGISTRY}"
+      --atomic
+      --wait"
+      ./scripts/helm_deploy_and_wait.sh
+
+#############  CPM-DEV  ############
+
+cpm-dev deploy:
+  extends:
+    - .base-kibana
+  stage: cpm-dev-deploy
+  variables:
+    CLUSTER_NAME: "cpm-dev"
+  tags:
+    - kube-cpm
+
+#############  CPM-YC  ############
+
+#cpm-yc deploy:
+#  extends:
+#    - .base-kibana
+#  stage: cpm-yc-deploy
+#  variables:
+#    CLUSTER_NAME: "cpm"
+#  tags:
+#    - cpm-yac
+
+#############  CORP  ############
+
+#corp deploy:
+#  extends:
+#    - .base-kibana
+#  stage: corp-deploy
+#  variables:
+#    CLUSTER_NAME: "corp"
+#  tags:
+#    - kube-corp
+
+#############  UNIV  ############
+
+#univ deploy:
+#  extends:
+#    - .base-kibana
+#  stage: univ-deploy
+#  variables:
+#    CLUSTER_NAME: "univ"
+#  tags:
+#    - kube-univ
+
+#############  SIRIUS  ############
+
+#sirius deploy:
+#  extends:
+#    - .base-kibana
+#  stage: sirius-deploy
+#  variables:
+#    CLUSTER_NAME: "sirius"
+#  tags:
+#    - kube-ci

@@ -1,6 +1,8 @@
 elasticsearchPUBLICBASEURL: https://logs-cpm.online.olimpiada.ru
 elasticsearchURL: http://10.43.214.248:9200
 
+serverHost: ""
+
 securityContext: {}
 
 automountToken: false

@@ -10,9 +10,7 @@ imageTag: "7.16.1"
 imagePullPolicy: "IfNotPresent"
 
 labels: {}
-
 annotations: {}
-
 podAnnotations: {}
 
 resources:
@@ -50,29 +48,13 @@ updateStrategy:
 
 service:
   type: ClusterIP
-  loadBalancerIP: ""
   port: 5601
-  nodePort: ""
   labels: {}
   annotations: {}
-  loadBalancerSourceRanges: []
   httpPortName: http
 
 ingress:
   enabled: false
-  className: "nginx"
-  pathtype: ImplementationSpecific
-  annotations: {}
-  # kubernetes.io/ingress.class: nginx
-  # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: kibana-example.local
-      paths:
-        - path: /
-  #tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
 
 readinessProbe:
   failureThreshold: 3

@@ -1,12 +1,12 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "kibana.fullname" . -}}
+{{- $fullName := "kibana" -}}
 {{- $httpPort := .Values.httpPort -}}
 {{- $pathtype := .Values.ingress.pathtype -}}
 {{- $ingressPath := .Values.ingress.path -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Chart.Name }}
+  name: {{ $fullName }}
   labels: {{ include "kibana.labels" . | nindent 4 }}
 {{- with .Values.ingress.annotations }}
   annotations:
@@ -40,7 +40,7 @@ spec:
         pathType: {{ $pathtype }}
         backend:
           service:
-            name: {{ .Chart.Name }}
+            name: {{ $fullName }}
             port: 
               number: {{ $httpPort }}
   {{- else }}
@@ -52,7 +52,7 @@ spec:
         pathType: {{ $pathtype }}
         backend:
           service:
-            name: {{ .Chart.Name }}
+            name: {{ $fullName }}
             port:
               number: {{ .servicePort | default $httpPort }}
       {{- end }}

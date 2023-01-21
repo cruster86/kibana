@@ -20,6 +20,6 @@ ingress:
     nginx.ingress.kubernetes.io/auth-type: basic
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
   hosts:
-    - host: kibana-example.local
+    - host: logs-cpm.online.olimpiada.ru
       paths:
         - path: /

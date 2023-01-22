@@ -14,12 +14,12 @@ nodeSelector:
 tolerations: []
 
 ingress:
-  enabled: false
+  enabled: true
   className: "nginx"
   pathtype: ImplementationSpecific
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
   hosts:
-    - host: logs-cpm.online.olimpiada.ru
+    - host: new-logs-cpm.online.olimpiada.ru
       paths:
         - path: /

@@ -13,6 +13,9 @@ nodeSelector:
 
 tolerations: []
 
+basicAuth:
+  enabled: true
+
 ingress:
   enabled: true
   apiVersion: "extensions/v1beta1"

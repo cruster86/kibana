@@ -1,3 +1,4 @@
+{{- if .Values.basicAuth.enabled -}}
 apiVersion: v1
 data:
   auth: Y3BtLWtpYmFuYTokYXByMSRSMHlSdmNueSRpandobmJ2RTZZMG9YdUs3NUhIZDIvCg==
@@ -5,3 +6,4 @@ kind: Secret
 metadata:
   name: basic-auth
 type: Opaque
+{{- end }}

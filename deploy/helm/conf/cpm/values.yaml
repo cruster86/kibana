@@ -1,0 +1,32 @@
+elasticsearchPUBLICBASEURL: https://logs.online.olimpiada.ru/
+elasticsearchHosts: http://10.96.214.227:9200
+elasticsearchURL: http://elasticsearch-master:9200
+
+serverHost: "0.0.0.0"
+
+securityContext: {}
+
+automountToken: false
+
+nodeSelector:
+  node-role: monitoring
+
+tolerations: []
+
+ingress:
+  enabled: true
+  apiVersion: "extensions/v1beta1"
+  className: "nginx"
+  pathtype: ImplementationSpecific
+  annotations:
+    nginx.ingress.kubernetes.io/auth-realm: Authentication Required
+    nginx.ingress.kubernetes.io/auth-secret: basic-auth
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  hosts:
+    - host: new-logs.online.olimpiada.ru
+      paths:
+        - path: /
+
+
+

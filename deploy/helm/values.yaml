@@ -54,6 +54,9 @@ service:
   annotations: {}
   httpPortName: http
 
+basicAuth:
+  enabled: false
+
 ingress:
   enabled: false
 

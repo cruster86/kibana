@@ -37,14 +37,14 @@ cpm-dev deploy:
 
 #############  CPM-YC  ############
 
-#cpm-yc deploy:
-#  extends:
-#    - .base-kibana
-#  stage: cpm-yc-deploy
-#  variables:
-#    CLUSTER_NAME: "cpm"
-#  tags:
-#    - cpm-yac
+cpm-yc deploy:
+  extends:
+    - .base-kibana
+  stage: cpm-yc-deploy
+  variables:
+    CLUSTER_NAME: "cpm"
+  tags:
+    - cpm-yac
 
 #############  CORP  ############
 

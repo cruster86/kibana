@@ -48,14 +48,14 @@ cpm-dev deploy:
 
 #############  CORP  ############
 
-#corp deploy:
-#  extends:
-#    - .base-kibana
-#  stage: corp-deploy
-#  variables:
-#    CLUSTER_NAME: "corp"
-#  tags:
-#    - kube-corp
+corp deploy:
+  extends:
+    - .base-kibana
+  stage: corp-deploy
+  variables:
+    CLUSTER_NAME: "corp"
+  tags:
+    - kube-corp
 
 #############  UNIV  ############
 

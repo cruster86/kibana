@@ -1,0 +1,30 @@
+elasticsearchPUBLICBASEURL: https://logs-corp.sirius.online
+elasticsearchHosts: http://10.43.175.211:9200
+elasticsearchURL: http://elasticsearch-master:9200
+
+serverHost: "0.0.0.0"
+
+securityContext: {}
+
+automountToken: false
+
+nodeSelector:
+  node-role: monitoring
+
+tolerations:
+- effect: NoSchedule
+  key: node-role
+  operator: Equal
+  value: monitoring
+
+ingress:
+  enabled: true
+  className: "nginx"
+  pathtype: ImplementationSpecific
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  hosts:
+    - host: new-logs-corp.sirius.online
+      paths:
+        - path: /
+

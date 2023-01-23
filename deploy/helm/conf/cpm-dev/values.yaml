@@ -9,7 +9,7 @@ securityContext: {}
 automountToken: false
 
 nodeSelector:
-  kubernetes.io/hostname: ts-monitoring
+  node-role: monitoring
 
 tolerations: []
 
@@ -20,6 +20,6 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
   hosts:
-    - host: new-logs-cpm.online.olimpiada.ru
+    - host: logs-cpm.online.olimpiada.ru
       paths:
         - path: /

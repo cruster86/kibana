@@ -70,11 +70,11 @@ univ deploy:
 
 #############  SIRIUS  ############
 
-#sirius deploy:
-#  extends:
-#    - .base-kibana
-#  stage: sirius-deploy
-#  variables:
-#    CLUSTER_NAME: "sirius"
-#  tags:
-#    - kube-ci
+sirius deploy:
+  extends:
+    - .base-kibana
+  stage: sirius-deploy
+  variables:
+    CLUSTER_NAME: "sirius"
+  tags:
+    - kube-ci

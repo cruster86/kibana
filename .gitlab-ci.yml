@@ -59,14 +59,14 @@ corp deploy:
 
 #############  UNIV  ############
 
-#univ deploy:
-#  extends:
-#    - .base-kibana
-#  stage: univ-deploy
-#  variables:
-#    CLUSTER_NAME: "univ"
-#  tags:
-#    - kube-univ
+univ deploy:
+  extends:
+    - .base-kibana
+  stage: univ-deploy
+  variables:
+    CLUSTER_NAME: "univ"
+  tags:
+    - kube-univ
 
 #############  SIRIUS  ############
 

@@ -27,6 +27,7 @@ tolerations:
 
 ingress:
   enabled: true
+  apiVersion: "extensions/v1beta1"
   className: "nginx"
   pathtype: ImplementationSpecific
   annotations:

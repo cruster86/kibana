@@ -57,6 +57,9 @@ service:
 basicAuth:
   enabled: false
 
+certificate:
+  enabled: false
+
 ingress:
   enabled: false
 

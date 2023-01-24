@@ -39,11 +39,11 @@ spec:
       - path: {{ $ingressPath }}
         pathType: {{ $pathtype }}
         backend:
-          service:
           {{- if $.Values.ingress.apiVersion }}
-            serviceName: kibana
-            servicePort: http
+          serviceName: kibana
+          servicePort: http
           {{- else }}
+          service:
             name: kibana
             port:
               number: {{ $httpPort }}
@@ -56,11 +56,11 @@ spec:
       - path: {{ .path }}
         pathType: {{ $pathtype }}
         backend:
-          service:
           {{- if $.Values.ingress.apiVersion }}
-            serviceName: kibana
-            servicePort: http
+          serviceName: kibana
+          servicePort: http
           {{- else }}
+          service:
             name: kibana
             port:
               number: {{ $httpPort }}

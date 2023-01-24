@@ -27,7 +27,7 @@ ingress:
     nginx.ingress.kubernetes.io/auth-type: basic
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
   hosts:
-    - host: new-logs.online.olimpiada.ru
+    - host: logs.online.olimpiada.ru
       paths:
         - path: /
   tls:

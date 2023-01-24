@@ -33,6 +33,6 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
   hosts:
-    - host: new-logs.sirius.online
+    - host: logs.sirius.online
       paths:
         - path: /

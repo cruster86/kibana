@@ -30,9 +30,9 @@ ingress:
     - host: new-logs.online.olimpiada.ru
       paths:
         - path: /
-  #tls: []
+  #tls:
   #  - secretName: letsencrypt-logs
   #    hosts:
-  #      - new-logs.online.olimpiada.ru
+  #      - logs.online.olimpiada.ru
 
 

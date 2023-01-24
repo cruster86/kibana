@@ -16,16 +16,12 @@ tolerations: []
 basicAuth:
   enabled: true
 
-certificate:
-  enabled: false
-
 ingress:
   enabled: true
   apiVersion: "extensions/v1beta1"
   className: "nginx"
   pathtype: ImplementationSpecific
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/auth-realm: Authentication Required
     nginx.ingress.kubernetes.io/auth-secret: basic-auth
     nginx.ingress.kubernetes.io/auth-type: basic
@@ -35,8 +31,8 @@ ingress:
       paths:
         - path: /
   #tls: []
-  #  - secretName: chart-example-tls
+  #  - secretName: letsencrypt-logs
   #    hosts:
-  #      - chart-example.local
+  #      - new-logs.online.olimpiada.ru
 
 

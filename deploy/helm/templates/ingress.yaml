@@ -40,10 +40,15 @@ spec:
         pathType: {{ $pathtype }}
         backend:
           service:
+          {{- if $.Values.ingress.apiVersion }}
+            serviceName: {{ $fullName }}
+            servicePort: http
+          {{- else }}
             name: {{ $fullName }}
-            port: 
+            port:
               number: {{ $httpPort }}
-  {{- else }}
+          {{- end }}
+    {{- else }}
   - host: {{ .host }}
     http:
       paths:
@@ -52,10 +57,15 @@ spec:
         pathType: {{ $pathtype }}
         backend:
           service:
+          {{- if $.Values.ingress.apiVersion }}
+            serviceName: {{ $fullName }}
+            servicePort: http
+          {{- else }}
             name: {{ $fullName }}
             port:
-              number: {{ .servicePort | default $httpPort }}
+              number: {{ $httpPort }}
+          {{- end }}
       {{- end }}
-  {{- end }}
+    {{- end }}
  {{- end }}
- {{- end }}
+{{- end }}

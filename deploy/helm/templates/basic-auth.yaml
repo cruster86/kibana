@@ -1,7 +1,7 @@
 {{- if .Values.basicAuth.enabled -}}
 apiVersion: v1
 data:
-  auth: Y3BtLWtpYmFuYTokYXByMSRSMHlSdmNueSRpandobmJ2RTZZMG9YdUs3NUhIZDIvCg==
+  auth: {{ .Values.global.basic_auth }}
 kind: Secret
 metadata:
   name: basic-auth

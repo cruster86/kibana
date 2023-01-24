@@ -6,7 +6,7 @@
 apiVersion: {{ .Values.ingress.apiVersion | default "networking.k8s.io/v1" }}
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: kibana
   labels: {{ include "kibana.labels" . | nindent 4 }}
 {{- with .Values.ingress.annotations }}
   annotations:
@@ -41,10 +41,10 @@ spec:
         backend:
           service:
           {{- if $.Values.ingress.apiVersion }}
-            serviceName: {{ $fullName }}
+            serviceName: kibana
             servicePort: http
           {{- else }}
-            name: {{ $fullName }}
+            name: kibana
             port:
               number: {{ $httpPort }}
           {{- end }}
@@ -58,10 +58,10 @@ spec:
         backend:
           service:
           {{- if $.Values.ingress.apiVersion }}
-            serviceName: {{ $fullName }}
+            serviceName: kibana
             servicePort: http
           {{- else }}
-            name: {{ $fullName }}
+            name: kibana
             port:
               number: {{ $httpPort }}
           {{- end }}

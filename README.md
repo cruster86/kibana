@@ -1,33 +1,7 @@
-<details><summary>Состав проекта:</summary>
+### Структура репозитория
 
-    ├── .gitlab-ci.yml
-    ├── README.md     
-    ├── deploy
-    │   └── helm
-    │       ├── Chart.yaml
-    │       ├── conf
-    │       │   ├── corp
-    │       │   │   └── values.yaml
-    │       │   ├── cpm
-    │       │   │   └── values.yaml
-    │       │   ├── cpm-dev
-    │       │   │   └── values.yaml
-    │       │   ├── sirius
-    │       │   │   └── values.yaml
-    │       │   └── univ
-    │       │       └── values.yaml
-    │       ├── templates
-    │       │   ├── _helpers.tpl
-    │       │   ├── deployment.yaml
-    │       │   ├── service.yaml
-    │       │   ├── secret.yaml
-    │       │   └── ingress.yaml
-    │       └── values.yaml
-    └── scripts
-        └── helm_deploy_and_wait.sh
-</details>
+Настройки для кластеров находятся в: `deplo/helm/conf/${CLUSTER_NAME}/values.yaml`
 
-<details><summary>Настройки:</summary>
+Конфигурация деплоя находится в: `.gitlab-ci.yaml`
 
-  - Настройка параметров: `conf/${CLUSTER_NAME}/values.yaml`
-</details>
+Upstream проект: https://github.com/elastic/helm-charts/tree/main/kibana

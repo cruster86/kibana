@@ -1,6 +1,5 @@
 elasticsearchPUBLICBASEURL: https://logs.online.olimpiada.ru/
-elasticsearchHosts: http://10.96.214.227:9200
-elasticsearchURL: http://elasticsearch-master:9200
+elasticsearchHosts: http://elasticsearch-master.logging.svc:9200
 
 serverHost: "0.0.0.0"
 

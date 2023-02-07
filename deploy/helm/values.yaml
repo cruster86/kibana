@@ -1,20 +1,30 @@
 ---
+# Публичный адрес для kibana, должен быть перечислен и в ingress.hosts
 elasticsearchPUBLICBASEURL: ""
+# IP адрес хоста
 elasticsearchHosts: ""
+# Внутренний DNS адрес (в локальном имени)
 elasticsearchURL: ""
+# Адрес, на котором сервер слушает коннекты 
 serverHost: "0.0.0.0"
 
+# Кол-во реплик
 replicas: 1
 
+# Информация об образе
 #image: "cr.yandex/crpcm9tg75s8gu2hqkp9/kibana"
 image: "registry.sirius.online/infra/kibana"
 imageTag: "7.16.1"
 imagePullPolicy: "IfNotPresent"
 
+# Дополнительные ярлыки pod-а
 labels: {}
+# Аннотации для сервиса
 annotations: {}
+# Аннонтации для пода
 podAnnotations: {}
 
+# Ресурсы по умолчанию
 resources:
   requests:
     cpu: "100m"
@@ -23,13 +33,17 @@ resources:
     cpu: "800m"
     memory: "2Gi"
 
+# Внутренний протокол kibana
 protocol: http
 
+# Путь, по которому работают health проверки
 healthCheckPath: "/app/kibana"
 
+# Пользователь под которым работает kibana
 podSecurityContext:
   fsGroup: 1000
 
+# Настройки security
 securityContext:
   capabilities:
     drop:
@@ -38,16 +52,20 @@ securityContext:
   runAsNonRoot: true
   runAsUser: 1000
 
+# 
 automountToken: true
 
+# Внутренний порт
 httpPort: 5601
 
+# Настройки обновления подов
 updateStrategy:
   rollingUpdate:
     maxSurge: 25%
     maxUnavailable: 25%
   type: RollingUpdate
 
+# Настройки сервисов
 service:
   type: ClusterIP
   port: 5601
@@ -55,12 +73,15 @@ service:
   annotations: {}
   httpPortName: http
 
+# basic auth
 basicAuth:
   enabled: false
 
+# Включаем ли мы ingress-ы
 ingress:
   enabled: false
 
+# Сприкт для проверки живости пода
 readinessProbe:
   exec:
     command:
@@ -91,10 +112,12 @@ readinessProbe:
   successThreshold: 3
   timeoutSeconds: 5
 
+# Настройки секретов
 imagePullSecrets:
 - name: sirius-registry
 - name: gitlab-registry
 
+# Каким образом мы выбираем ноду для запуска
 nodeSelector: {}
 
 tolerations: []

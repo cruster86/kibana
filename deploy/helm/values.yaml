@@ -39,7 +39,7 @@ protocol: http
 # Путь, по которому работают health проверки
 healthCheckPath: "/app/kibana"
 
-# Пользователь под которым работает kibana
+# Пользователь, под которым работает kibana
 podSecurityContext:
   fsGroup: 1000
 
@@ -52,7 +52,7 @@ securityContext:
   runAsNonRoot: true
   runAsUser: 1000
 
-# 
+# Передача токена сервисного аккаунта в pod
 automountToken: false
 
 # Внутренний порт
@@ -81,7 +81,7 @@ basicAuth:
 ingress:
   enabled: false
 
-# Сприкт для проверки живости пода
+# Скрипт для проверки живости пода
 readinessProbe:
   exec:
     command:
@@ -117,13 +117,14 @@ imagePullSecrets:
 - name: sirius-registry
 - name: gitlab-registry
 
-# Каким образом мы выбираем ноду для запуска
+# Настройки выбора ноды для запуска
 nodeSelector:
   node-role: monitoring
 
-tolerations: []
-
+# Расширенные настройки выбора ноды для запуска
 affinity: {}
+
+tolerations: []
 
 nameOverride: ""
 fullnameOverride: ""

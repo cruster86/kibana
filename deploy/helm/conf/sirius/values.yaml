@@ -1,13 +1,5 @@
 elasticsearchPUBLICBASEURL: https://logs.sirius.online/
 
-resources:
-  requests:
-    cpu: "100m"
-    memory: "300Mi"
-  limits:
-    cpu: "1"
-    memory: "2Gi"
-
 tolerations:
 - effect: NoSchedule
   key: node-role

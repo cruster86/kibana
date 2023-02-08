@@ -53,7 +53,7 @@ securityContext:
   runAsUser: 1000
 
 # 
-automountToken: true
+automountToken: false
 
 # Внутренний порт
 httpPort: 5601

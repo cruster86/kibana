@@ -1,12 +1,4 @@
 elasticsearchPUBLICBASEURL: https://logs-cpm.online.olimpiada.ru
-elasticsearchHosts: http://elasticsearch-master.logging.svc:9200
-
-serverHost: "0.0.0.0"
-
-nodeSelector:
-  node-role: monitoring
-
-tolerations: []
 
 ingress:
   enabled: true

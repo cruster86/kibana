@@ -2,7 +2,7 @@
 # Публичный адрес для kibana, должен быть перечислен и в ingress.hosts
 elasticsearchPUBLICBASEURL: ""
 # IP адрес хоста
-elasticsearchHosts: ""
+elasticsearchHosts: http://elasticsearch-master.logging.svc:9200
 # Внутренний DNS адрес (в локальном имени)
 elasticsearchURL: ""
 # Адрес, на котором сервер слушает коннекты 
@@ -118,7 +118,8 @@ imagePullSecrets:
 - name: gitlab-registry
 
 # Каким образом мы выбираем ноду для запуска
-nodeSelector: {}
+nodeSelector:
+  node-role: monitoring
 
 tolerations: []
 

@@ -1,10 +1,4 @@
 elasticsearchPUBLICBASEURL: https://logs-univ.sirius.online
-elasticsearchHosts: http://elasticsearch-master.logging.svc:9200
-
-serverHost: "0.0.0.0"
-
-nodeSelector:
-  node-role: monitoring
 
 tolerations:
 - effect: NoSchedule

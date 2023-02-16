@@ -17,3 +17,6 @@ ingress:
     - host: logs.sirius.online
       paths:
         - path: /
+    - host: logs.internal.sirius.online
+      paths:
+        - path: /

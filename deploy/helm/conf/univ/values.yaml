@@ -16,3 +16,6 @@ ingress:
     - host: logs-univ.sirius.online
       paths:
         - path: /
+    - host: logs-univ.internal.sirius.online
+      paths:
+        - path: /

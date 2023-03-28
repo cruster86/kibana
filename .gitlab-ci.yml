@@ -1,9 +1,8 @@
 stages:
-  - cpm-dev-deploy
-  - cpm-yc-deploy
-  - corp-deploy
-  - univ-deploy
-  - sirius-deploy
+  - cpm
+  - corp
+  - univ
+  - sirius
 
 .base-kibana:
   when: manual
@@ -28,10 +27,10 @@ stages:
 
 #############  CPM-DEV  ############
 
-cpm-dev deploy:
+cpm kibana stage:
   extends:
     - .base-kibana
-  stage: cpm-dev-deploy
+  stage: cpm
   variables:
     CLUSTER_NAME: "cpm-dev"
   tags:
@@ -39,10 +38,10 @@ cpm-dev deploy:
 
 #############  CPM-YC  ############
 
-cpm-yc deploy:
+cpm kibana prod:
   extends:
     - .base-kibana
-  stage: cpm-yc-deploy
+  stage: cpm
   variables:
     CLUSTER_NAME: "cpm"
   tags:
@@ -50,10 +49,10 @@ cpm-yc deploy:
 
 #############  CORP  ############
 
-corp deploy:
+corp kibana prod:
   extends:
     - .base-kibana
-  stage: corp-deploy
+  stage: corp
   variables:
     CLUSTER_NAME: "corp"
   tags:
@@ -61,10 +60,10 @@ corp deploy:
 
 #############  UNIV  ############
 
-univ deploy:
+univ kibana prod:
   extends:
     - .base-kibana
-  stage: univ-deploy
+  stage: univ
   variables:
     CLUSTER_NAME: "univ"
   tags:
@@ -72,10 +71,10 @@ univ deploy:
 
 #############  SIRIUS  ############
 
-sirius deploy:
+sirius kibana prod:
   extends:
     - .base-kibana
-  stage: sirius-deploy
+  stage: sirius
   variables:
     CLUSTER_NAME: "sirius"
   tags:

@@ -10,3 +10,6 @@ ingress:
     - host: logs-cpm.online.olimpiada.ru
       paths:
         - path: /
+
+nodeSelector:
+  node-role: monitoring

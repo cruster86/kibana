@@ -20,3 +20,6 @@ ingress:
     - host: logs.internal.sirius.online
       paths:
         - path: /
+
+nodeSelector:
+  node-role: monitoring

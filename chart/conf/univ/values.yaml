@@ -19,3 +19,6 @@ ingress:
     - host: logs-univ.internal.sirius.online
       paths:
         - path: /
+
+nodeSelector:
+  node-role: monitoring

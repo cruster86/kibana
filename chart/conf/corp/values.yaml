@@ -20,3 +20,5 @@ ingress:
       paths:
         - path: /
 
+nodeSelector:
+  node-role: monitoring

@@ -118,8 +118,7 @@ imagePullSecrets:
 - name: gitlab-registry
 
 # Настройки выбора ноды для запуска
-nodeSelector:
-  node-role: monitoring
+nodeSelector: {}
 
 # Расширенные настройки выбора ноды для запуска
 affinity: {}

@@ -10,16 +10,15 @@ stages:
     - echo 'Deploy parameters:'
     - echo 'CLUSTER_NAME =>' ${CLUSTER_NAME}
   script:
-    - set -x
     - kubectl get ns kibana || kubectl create ns kibana
     - chmod +x ./scripts/helm_deploy_and_wait.sh
     - RELEASE_NAME="kibana"
       NAMESPACE="kibana"
-      CHART="deploy/helm"
+      CHART="chart"
       HELM_ARGS="
-      -f deploy/helm/conf/${CLUSTER_NAME}/values.yaml
+      -f chart/conf/${CLUSTER_NAME}/values.yaml
       --set global.yc_secret="${YC_REGISTRY}"
-      --set global.gitlab_secret="${GITLAB_REGISTRY}"
+      --set global.gitlab_secret="${INFRA_REGISTRY}"
       --set global.basic_auth="${CPM_BASIC_AUTH}"
       --atomic
       --wait"

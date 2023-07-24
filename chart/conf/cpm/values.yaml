@@ -22,5 +22,4 @@ ingress:
       hosts:
         - logs.online.olimpiada.ru
 
-nodeSelector:
-  node-role: monitoring
+nodeSelector: {}

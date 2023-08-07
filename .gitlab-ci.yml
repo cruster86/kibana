@@ -1,8 +1,8 @@
 stages:
-  - cpm
   - corp
   - univ
   - sirius
+#  - cpm
 
 .base-kibana:
   when: manual
@@ -26,25 +26,25 @@ stages:
 
 #############  CPM-DEV  ############
 
-cpm kibana stage:
-  extends:
-    - .base-kibana
-  stage: cpm
-  variables:
-    CLUSTER_NAME: "cpm-dev"
-  tags:
-    - kube-cpm
+#cpm kibana stage:
+#  extends:
+#    - .base-kibana
+#  stage: cpm
+#  variables:
+#    CLUSTER_NAME: "cpm-dev"
+#  tags:
+#    - kube-cpm
 
 #############  CPM-YC  ############
 
-cpm kibana prod:
-  extends:
-    - .base-kibana
-  stage: cpm
-  variables:
-    CLUSTER_NAME: "cpm"
-  tags:
-    - cpm-yac
+#cpm kibana prod:
+#  extends:
+#    - .base-kibana
+#  stage: cpm
+#  variables:
+#    CLUSTER_NAME: "cpm"
+#  tags:
+#    - cpm-yac
 
 #############  CORP  ############
 

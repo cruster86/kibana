@@ -64,7 +64,7 @@ spec:
         - containerPort: {{ .Values.httpPort }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
-      {{- if .Values.kibanaConfig }}
+    {{- if .Values.kibanaConfig }}
         volumeMounts:
           {{- range $path, $config := .Values.kibanaConfig }}
           - name: kibanaconfig
@@ -75,4 +75,4 @@ spec:
         - name: kibanaconfig
           configMap:
             name: {{ template "kibana.fullname" . }}-config
-      {{- end }}
+    {{- end }}

@@ -28,6 +28,9 @@ spec:
         {{- range $key, $value := .Values.podAnnotations }}
         {{ $key }}: {{ $value | quote }}
         {{- end }}
+        {{- if .Values.kibanaConfig }}
+        configchecksum: {{ include (print .Template.BasePath "/configmap.yaml") . | sha256sum | trunc 63 }}
+        {{- end }}
     spec:
       automountServiceAccountToken: {{ .Values.automountToken }}
       securityContext:
@@ -64,3 +67,15 @@ spec:
         - containerPort: {{ .Values.httpPort }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
+      {{- if .Values.kibanaConfig }}
+        volumeMounts:
+          {{- range $path, $config := .Values.kibanaConfig }}
+          - name: kibanaconfig
+            mountPath: {{ template "kibana.home_dir" . }}/config/{{ $path }}
+            subPath: {{ $path }}
+          {{- end -}}
+      volumes:
+        - name: kibanaconfig
+          configMap:
+            name: {{ template "kibana.fullname" . }}-config
+      {{- end }}

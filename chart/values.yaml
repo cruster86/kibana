@@ -127,3 +127,7 @@ tolerations: []
 
 nameOverride: ""
 fullnameOverride: ""
+
+# Включаем ли мы секреты
+secrets:
+  enabled: false

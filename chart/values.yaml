@@ -127,3 +127,10 @@ tolerations: []
 
 nameOverride: ""
 fullnameOverride: ""
+
+# Добавление кастомные конфига в /usr/share/kibana/config/
+# например kibana.yml
+kibanaConfig: {}
+#   kibana.yml: |
+#     key:
+#       nestedkey: value

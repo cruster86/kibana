@@ -1,10 +1,8 @@
 elasticsearchPUBLICBASEURL: https://logs-univ.sirius.online
 
-tolerations:
-- effect: NoSchedule
-  key: node-role
-  operator: Equal
-  value: monitoring
+imagePullSecrets:
+- name: sirius-registry
+- name: gitlab-registry
 
 ingress:
   enabled: true
@@ -22,3 +20,13 @@ ingress:
 
 nodeSelector:
   node-role: monitoring
+
+tolerations:
+- effect: NoSchedule
+  key: node-role
+  operator: Equal
+  value: monitoring
+
+# Включаем ли мы секреты
+secrets:
+  enabled: true

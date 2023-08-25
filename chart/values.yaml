@@ -130,4 +130,4 @@ fullnameOverride: ""
 
 # Включаем ли мы секреты
 secrets:
-  enabled: true
+  enabled: false

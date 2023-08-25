@@ -1,5 +1,9 @@
 elasticsearchPUBLICBASEURL: https://logs-cpm.online.olimpiada.ru
 
+imagePullSecrets:
+- name: sirius-registry
+- name: gitlab-registry
+
 ingress:
   enabled: true
   className: "nginx"
@@ -13,3 +17,6 @@ ingress:
 
 nodeSelector:
   node-role: monitoring
+
+secrets:
+  enabled: true

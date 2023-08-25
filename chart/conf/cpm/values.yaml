@@ -3,6 +3,10 @@ elasticsearchPUBLICBASEURL: https://logs.online.olimpiada.ru/
 basicAuth:
   enabled: true
 
+imagePullSecrets:
+- name: sirius-registry
+- name: gitlab-registry
+
 ingress:
   enabled: true
   apiVersion: "extensions/v1beta1"
@@ -23,3 +27,6 @@ ingress:
         - logs.online.olimpiada.ru
 
 nodeSelector: {}
+
+secrets:
+  enabled: true

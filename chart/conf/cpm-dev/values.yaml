@@ -19,4 +19,4 @@ nodeSelector:
   node-role: monitoring
 
 secrets:
-  enabled: true
+  enabled: false

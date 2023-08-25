@@ -1,8 +1,7 @@
 elasticsearchPUBLICBASEURL: https://logs.sirius.online/
 
 imagePullSecrets:
-- name: sirius-registry
-- name: gitlab-registry
+- name: infra-registry
 
 ingress:
   enabled: true
@@ -29,4 +28,4 @@ tolerations:
   value: monitoring
 
 secrets:
-  enabled: true
+  enabled: false

@@ -29,4 +29,4 @@ ingress:
 nodeSelector: {}
 
 secrets:
-  enabled: true
+  enabled: false

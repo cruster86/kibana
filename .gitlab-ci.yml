@@ -2,7 +2,6 @@ stages:
   - corp
   - univ
   - sirius
-#  - cpm
 
 .base-kibana:
   when: manual
@@ -22,17 +21,6 @@ stages:
       --set global.basic_auth="${CPM_BASIC_AUTH}"
       --debug"
       ./scripts/helm_deploy_and_wait.sh
-
-#############  CPM-DEV  ############
-
-#cpm kibana stage:
-#  extends:
-#    - .base-kibana
-#  stage: cpm
-#  variables:
-#    CLUSTER_NAME: "cpm-dev"
-#  tags:
-#    - kube-cpm
 
 #############  CORP  ############
 

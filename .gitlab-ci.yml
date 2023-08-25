@@ -10,18 +10,18 @@ stages:
     - echo 'Deploy parameters:'
     - echo 'CLUSTER_NAME =>' ${CLUSTER_NAME}
   script:
-    - kubectl get ns kibana || kubectl create ns kibana
+    - kubectl get ns logging || kubectl create ns logging
     - chmod +x ./scripts/helm_deploy_and_wait.sh
     - RELEASE_NAME="kibana"
-      NAMESPACE="kibana"
+      NAMESPACE="logging"
       CHART="chart"
       HELM_ARGS="
       -f chart/conf/${CLUSTER_NAME}/values.yaml
       --set global.yc_secret="${YC_REGISTRY}"
       --set global.gitlab_secret="${INFRA_REGISTRY}"
       --set global.basic_auth="${CPM_BASIC_AUTH}"
-      --atomic
-      --wait"
+      --debug
+      --dry-run"
       ./scripts/helm_deploy_and_wait.sh
 
 #############  CPM-DEV  ############
@@ -34,17 +34,6 @@ stages:
 #    CLUSTER_NAME: "cpm-dev"
 #  tags:
 #    - kube-cpm
-
-#############  CPM-YC  ############
-
-#cpm kibana prod:
-#  extends:
-#    - .base-kibana
-#  stage: cpm
-#  variables:
-#    CLUSTER_NAME: "cpm"
-#  tags:
-#    - cpm-yac
 
 #############  CORP  ############
 

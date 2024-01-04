@@ -34,7 +34,7 @@ spec:
 {{- end }}
   rules:
   {{- range .Values.ingress.hosts }}
-    {{- if $ingressPath }}
+  {{- if $ingressPath }}
   - host: {{ . }}
     http:
       paths:
@@ -50,7 +50,7 @@ spec:
             port:
               number: {{ $httpPort }}
           {{- end }}
-    {{- else }}
+  {{- else }}
   - host: {{ .host }}
     http:
       paths:

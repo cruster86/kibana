@@ -39,7 +39,9 @@ spec:
     http:
       paths:
       - path: {{ $ingressPath }}
+      {{- if ge (int .Capabilities.KubeVersion.Minor) 20 }}
         pathType: {{ $pathtype }}
+      {{- end }}
         backend:
           {{- if $.Values.ingress.apiVersion }}
           serviceName: kibana
@@ -56,7 +58,9 @@ spec:
       paths:
       {{- range .paths }}
       - path: {{ .path }}
+      {{- if ge (int .Capabilities.KubeVersion.Minor) 20 }}
         pathType: {{ $pathtype }}
+      {{- end }}
         backend:
           {{- if $.Values.ingress.apiVersion }}
           serviceName: kibana

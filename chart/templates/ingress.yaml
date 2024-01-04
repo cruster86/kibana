@@ -13,9 +13,11 @@ metadata:
 {{ toYaml . | indent 4 }}
 {{- end }}
 spec:
+{{- if ge (int .Capabilities.KubeVersion.Minor) 20 }}
   {{- if .Values.ingress.className }}
   ingressClassName: {{ .Values.ingress.className | quote }}
   {{- end }}
+{{- end }}
 {{- if .Values.ingress.tls }}
   tls:
   {{- if .ingressPath }}

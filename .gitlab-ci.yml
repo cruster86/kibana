@@ -1,6 +1,4 @@
 stages:
-  - corp
-  - univ
   - sirius
 
 .base-kibana:
@@ -21,28 +19,6 @@ stages:
       --set global.basic_auth="${CPM_BASIC_AUTH}"
       --debug"
       ./scripts/helm_deploy_and_wait.sh
-
-#############  CORP  ############
-
-corp kibana prod:
-  extends:
-    - .base-kibana
-  stage: corp
-  variables:
-    CLUSTER_NAME: "corp"
-  tags:
-    - kube-corp
-
-#############  UNIV  ############
-
-univ kibana prod:
-  extends:
-    - .base-kibana
-  stage: univ
-  variables:
-    CLUSTER_NAME: "univ"
-  tags:
-    - kube-univ
 
 #############  SIRIUS  ############
 

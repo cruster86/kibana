@@ -56,7 +56,7 @@ spec:
       paths:
       {{- range .paths }}
       - path: {{ .path }}
-        pathType: {{ $pathtype }}
+#        pathType: {{ $pathtype }}
         backend:
           {{- if $.Values.ingress.apiVersion }}
           serviceName: kibana

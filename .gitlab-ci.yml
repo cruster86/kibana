@@ -7,7 +7,6 @@ stages:
     - echo 'Deploy parameters:'
     - echo 'CLUSTER_NAME =>' ${CLUSTER_NAME}
   script:
-    - kubectl get ns logging || kubectl create ns logging
     - chmod +x ./scripts/helm_deploy_and_wait.sh
     - RELEASE_NAME="kibana"
       NAMESPACE="logging"
@@ -22,11 +21,11 @@ stages:
 
 #############  SIRIUS  ############
 
-sirius kibana prod:
-  extends:
-    - .base-kibana
-  stage: sirius
-  variables:
-    CLUSTER_NAME: "sirius"
-  tags:
-    - kube-ci
+#sirius kibana prod:
+#  extends:
+#    - .base-kibana
+#  stage: sirius
+#  variables:
+#    CLUSTER_NAME: "sirius"
+#  tags:
+#    - kube-ci
